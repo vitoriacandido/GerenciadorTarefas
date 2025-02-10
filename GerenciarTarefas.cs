@@ -1,11 +1,6 @@
 namespace GerenciarTarefas
 {
     class metodos
-    {
-    using System;
-using System.Collections.Generic;
-
-class Program
 {
     static void Main()
     {
@@ -25,7 +20,7 @@ class Program
         {
             // Exibe as opções no console
             Console.Clear();
-            Formatacao.Cor("Informe um valor: ", ConsoleColor.Blue);
+            Formatacao.Cor("Escolha uma opção: ", ConsoleColor.Blue);
             Console.WriteLine("Escolha uma opção:");
             foreach (var opcao in opcoes)
             {
@@ -53,6 +48,7 @@ class Program
                         Console.WriteLine("Você escolheu: Remover Tarefa.");
                         break;
                         case 5:
+                        Formatacao.Cor("Saindo...", ConsoleColor.Blue);
                         Console.WriteLine("Saindo...");
                         break;
                     default:
@@ -71,4 +67,5 @@ class Program
 
         } while (opcaoSelecionada != 4); // O loop continua até a opção "Sair" (opção 4)
     }
+}
 }
