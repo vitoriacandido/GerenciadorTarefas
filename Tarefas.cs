@@ -2,7 +2,7 @@ namespace Tarefas
 {
     class Tarefa
     {
-        public static void Tarefa(ExibirTarefa)
+        public static string (get,set)
         {
             Console.Write:(ExibirTarefa);
         }

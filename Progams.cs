@@ -1,6 +1,6 @@
 using GerenciarTarefas;
 
-metodos.Main();
+Metodos.Main();
 
 
 
