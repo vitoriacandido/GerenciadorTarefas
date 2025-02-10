@@ -25,6 +25,7 @@ class Program
         {
             // Exibe as opções no console
             Console.Clear();
+            Formatacao.Cor("Informe um valor: ", ConsoleColor.Blue);
             Console.WriteLine("Escolha uma opção:");
             foreach (var opcao in opcoes)
             {
