@@ -1,6 +1,5 @@
-using GerenciarTarefas;
+using GerenciarTarefas
 
-Metodos.Main();
-
-
-
+Metodos.Pricipal(),
+Formatacao.Cor(),
+Tarefas.Tarefa()       

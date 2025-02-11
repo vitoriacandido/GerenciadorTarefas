@@ -2,7 +2,7 @@ namespace GerenciarTarefas
 {
     class Metodos
     {
-        static void Main()
+        static void Pricipal ()
         {
             // Lista de opções
             List<string> opcoes = new List<string>
