@@ -3,16 +3,24 @@ namespace Tarefas
     class Tarefa
     {
         // Propriedade para armazenar o nome da tarefa
-        public string Nome { get; set; }
-        
+        public int Id { get; set; }
         // Propriedade para armazenar a descrição da tarefa
         public string Descricao { get; set; }
+        public bool Concluido {get; set; }
+
+
+        public Tarefa(int id,string descricao)
+        {
+            Id = id;
+            Descricao = descricao;
+            Concluido = false;
+        }
+
 
         // Método para exibir a tarefa
         public void ExibirTarefa()
         {
-            Console.WriteLine($"Tarefa: {Nome}");
-            Console.WriteLine($"Descrição: {Descricao}");
+            Console.WriteLine($"[{(Concluido ? "X" : " ")}] ID: {Id} - {Descricao}");
         }
     }
 }
