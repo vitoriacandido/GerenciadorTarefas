@@ -2,7 +2,7 @@ namespace GerenciarTarefas
 {
     class Metodos
     {
-        static void Pricipal ()
+        public static void Menu ()
         {
             // Lista de opções
             List<string> opcoes = new List<string>
@@ -36,7 +36,7 @@ namespace GerenciarTarefas
                     {
                         case 1:
                             Console.WriteLine("Você escolheu: Adicionar Tarefa.");
-                            break;
+                            break; 
                         case 2:
                             Console.WriteLine("Você escolheu: Listar Tarefas.");
                             break;
