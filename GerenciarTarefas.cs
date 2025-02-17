@@ -1,81 +1,107 @@
 namespace GerenciarTarefas
 {
-    class Metodos
-    {
-        public static void Menu ()
-        {
-            // Lista de opções
-            List<string> opcoes = new List<string>
-            {
-                "1. Adicionar Tarefa",
-                "2. Listar Tarefas",
-                "3. Concluir Tarefa",
-                "4. Remover Tarefa",  // Adicionada vírgula
-                "5. Sair"
-            };
+    using Tarefas;
 
+    public class Metodos
+    {
+        static List<Tarefa> tarefas = new List<Tarefa>();
+        static int contadorId = 1;
+
+        public static void Menu()
+        {
             int opcaoSelecionada;
 
             do
             {
-                // Exibe as opções no console
                 Console.Clear();
-                Formatacao.Cor("Escolha uma opção: ", ConsoleColor.Blue);
-                foreach (var opcao in opcoes)
+                Layout.Formatacao.ImprimirCabecalho();
+
+                // Exibe as opções no menu
+                opcaoSelecionada = int.Parse(Console.ReadLine());
+
+                switch (opcaoSelecionada)
                 {
-                    Console.WriteLine(opcao);
+                    case 1:
+                        AdicionarTarefa();
+                        break;
+                    case 2:
+                        ListarTarefas();
+                        break;
+                    case 3:
+                        ConcluirTarefa();
+                        break;
+                    case 4:
+                        RemoverTarefa();
+                        break;
+                    case 0:
+                        Console.WriteLine("Saindo...");
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida. Tente novamente.");
+                        break;
                 }
 
-                // Tenta obter a opção escolhida pelo usuário
-                Console.Write("Digite o número da opção: ");
-                bool entradaValida = int.TryParse(Console.ReadLine(), out opcaoSelecionada);
-
-                if (entradaValida)
-                {
-                    switch (opcaoSelecionada)
-                    {
-                        case 1:
-                            Console.WriteLine("Você escolheu: Adicionar Tarefa.");
-                            break; 
-                        case 2:
-                            Console.WriteLine("Você escolheu: Listar Tarefas.");
-                            break;
-                        case 3:
-                            Console.WriteLine("Você escolheu: Concluir Tarefa.");
-                            break;
-                        case 4:
-                            Console.WriteLine("Você escolheu: Remover Tarefa.");
-                            break;
-                        case 5:
-                            Formatacao.Cor("Saindo...", ConsoleColor.Blue);
-                            Console.WriteLine("Saindo...");
-                            break;
-                        default:
-                            Console.WriteLine("Opção inválida, por favor escolha uma opção válida.");
-                            break;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Entrada inválida, por favor digite um número.");
-                }
-
-                // Pausa para o usuário ver a resposta
                 Console.WriteLine("\nPressione qualquer tecla para continuar...");
                 Console.ReadKey();
 
-            } while (opcaoSelecionada != 5); // O loop continua até a opção "Sair" (opção 5)
+            } while (opcaoSelecionada != 0); // O loop continua até a opção "Sair"
         }
-    }
 
-    // Exemplo de classe Formatacao para mudar a cor do texto
-    public static class Formatacao
-    {
-        public static void Cor(string texto, ConsoleColor cor)
+        private static void AdicionarTarefa()
         {
-            Console.ForegroundColor = cor;
-            Console.WriteLine(texto);
-            Console.ResetColor();
+            Console.Write("Digite a descrição da tarefa: ");
+            string descricao = Console.ReadLine();
+            tarefas.Add(new Tarefa(contadorId++, descricao));
+            Console.WriteLine("Tarefa adicionada com sucesso!");
+        }
+
+        private static void ListarTarefas()
+        {
+            if (tarefas.Count == 0)
+            {
+                Console.WriteLine("Não há tarefas cadastradas.");
+            }
+            else
+            {
+                foreach (var tarefa in tarefas)
+                {
+                    tarefa.ExibirTarefa();
+                }
+            }
+        }
+
+        private static void ConcluirTarefa()
+        {
+            Console.Write("Digite o ID da tarefa a ser concluída: ");
+            int id = int.Parse(Console.ReadLine());
+            var tarefa = tarefas.FirstOrDefault(t => t.Id == id);
+
+            if (tarefa != null)
+            {
+                tarefa.Concluido = true;
+                Console.WriteLine("Tarefa concluída com sucesso!");
+            }
+            else
+            {
+                Console.WriteLine("Tarefa não encontrada.");
+            }
+        }
+
+        private static void RemoverTarefa()
+        {
+            Console.Write("Digite o ID da tarefa a ser removida: ");
+            int id = int.Parse(Console.ReadLine());
+            var tarefa = tarefas.FirstOrDefault(t => t.Id == id);
+
+            if (tarefa != null)
+            {
+                tarefas.Remove(tarefa);
+                Console.WriteLine("Tarefa removida com sucesso!");
+            }
+            else
+            {
+                Console.WriteLine("Tarefa não encontrada.");
+            }
         }
     }
 }

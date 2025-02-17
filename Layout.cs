@@ -1,6 +1,6 @@
 namespace Layout
 {
-    class Formataçao
+    public class Formatacao
     {
         public static void Cor(string mensagem, ConsoleColor cor)
         {
@@ -9,11 +9,10 @@ namespace Layout
             Console.ResetColor();
         }
 
-
         public static string ImprimirCabecalho()
         {
             Console.WriteLine("==============================================");
-            Console.WriteLine("        GERENCIADOR DE TAREFAS        ");
+            Console.WriteLine("          GERENCIADOR DE TAREFAS              ");
             Console.WriteLine("==============================================");
 
             Console.WriteLine("1 - Adicionar Tarefa");
@@ -25,11 +24,6 @@ namespace Layout
             Console.Write("Escolha uma opção: ");
             string opcao = Console.ReadLine();
             return opcao;
-        }
-
-        internal static void Cor()
-        {
-            throw new NotImplementedException();
         }
     }
 }
