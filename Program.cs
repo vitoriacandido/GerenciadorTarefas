@@ -1,3 +1,1 @@
-﻿using GerenciarTarefas;
-
-Metodos.Menu();
+﻿

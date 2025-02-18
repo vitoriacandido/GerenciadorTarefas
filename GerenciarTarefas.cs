@@ -1,106 +1,124 @@
-namespace GerenciarTarefas
+namespace GerenciarTarefa
 {
-    using Tarefas;
-
-    public class Metodos
+    // Classe GerenciarTarefa
+    public class GerenciarTarefa
     {
-        static List<Tarefa> tarefas = new List<Tarefa>();
-        static int contadorId = 1;
+        private List<Tarefas.Tarefa> tarefas;
 
-        public static void Menu()
+        public GerenciarTarefa()
         {
-            int opcaoSelecionada;
-
-            do
-            {
-                Console.Clear();
-                Layout.Formatacao.ImprimirCabecalho();
-
-                // Exibe as opções no menu
-                opcaoSelecionada = int.Parse(Console.ReadLine());
-
-                switch (opcaoSelecionada)
-                {
-                    case 1:
-                        AdicionarTarefa();
-                        break;
-                    case 2:
-                        ListarTarefas();
-                        break;
-                    case 3:
-                        ConcluirTarefa();
-                        break;
-                    case 4:
-                        RemoverTarefa();
-                        break;
-                    case 0:
-                        Console.WriteLine("Saindo...");
-                        break;
-                    default:
-                        Console.WriteLine("Opção inválida. Tente novamente.");
-                        break;
-                }
-
-                Console.WriteLine("\nPressione qualquer tecla para continuar...");
-                Console.ReadKey();
-
-            } while (opcaoSelecionada != 0); // O loop continua até a opção "Sair"
+            tarefas = new List<Tarefas.Tarefa>();
         }
 
-        private static void AdicionarTarefa()
+        public void AdicionarTarefa(string descricao)
         {
-            Console.Write("Digite a descrição da tarefa: ");
-            string descricao = Console.ReadLine();
-            tarefas.Add(new Tarefa(contadorId++, descricao));
-            Console.WriteLine("Tarefa adicionada com sucesso!");
+            int id = tarefas.Count + 1;
+            Tarefas.Tarefa novaTarefa = new Tarefas.Tarefa(id, descricao);
+            tarefas.Add(novaTarefa);
+            Console.WriteLine($"Tarefa '{descricao}' adicionada com sucesso.");
         }
 
-        private static void ListarTarefas()
+        public void ListarTarefas()
         {
             if (tarefas.Count == 0)
             {
-                Console.WriteLine("Não há tarefas cadastradas.");
+                Console.WriteLine("Nenhuma tarefa cadastrada.");
+                return;
             }
-            else
+
+            Console.WriteLine("Lista de Tarefas:");
+            foreach (var tarefa in tarefas)
             {
-                foreach (var tarefa in tarefas)
-                {
-                    tarefa.ExibirTarefa();
-                }
+                tarefa.ExibirTarefa();
+                Console.WriteLine("----------------------------");
             }
         }
 
-        private static void ConcluirTarefa()
+        public void ConcluirTarefa(int id)
         {
-            Console.Write("Digite o ID da tarefa a ser concluída: ");
-            int id = int.Parse(Console.ReadLine());
-            var tarefa = tarefas.FirstOrDefault(t => t.Id == id);
-
+            Tarefas.Tarefa tarefa = tarefas.Find(t => t.Id == id);
             if (tarefa != null)
             {
                 tarefa.Concluido = true;
-                Console.WriteLine("Tarefa concluída com sucesso!");
+                Console.WriteLine($"Tarefa ID {id} concluída com sucesso.");
             }
             else
             {
-                Console.WriteLine("Tarefa não encontrada.");
+                Console.WriteLine($"Tarefa com o ID {id} não encontrada.");
             }
         }
 
-        private static void RemoverTarefa()
+        public void RemoverTarefa(int id)
         {
-            Console.Write("Digite o ID da tarefa a ser removida: ");
-            int id = int.Parse(Console.ReadLine());
-            var tarefa = tarefas.FirstOrDefault(t => t.Id == id);
-
+            Tarefas.Tarefa tarefa = tarefas.Find(t => t.Id == id);
             if (tarefa != null)
             {
                 tarefas.Remove(tarefa);
-                Console.WriteLine("Tarefa removida com sucesso!");
+                Console.WriteLine($"Tarefa ID {id} removida com sucesso.");
             }
             else
             {
-                Console.WriteLine("Tarefa não encontrada.");
+                Console.WriteLine($"Tarefa com o ID {id} não encontrada.");
+            }
+        }
+    }
+
+    // Classe Program com o ponto de entrada
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Criando uma instância do gerenciador de tarefas
+            GerenciarTarefa gerenciar = new GerenciarTarefa();
+            bool sair = false;
+
+            // Loop principal do programa
+            while (!sair)
+            {
+                // Exibe o cabeçalho e captura a opção do usuário
+                string opcao = Layout.Formatacao.ImprimirCabecalho();
+
+                switch (opcao)
+                {
+                    case "1":
+                        Console.WriteLine("Digite a descrição da tarefa:");
+                        string descricao = Console.ReadLine();
+                        gerenciar.AdicionarTarefa(descricao);
+                        break;
+
+                    case "2":
+                        gerenciar.ListarTarefas();
+                        break;
+
+                    case "3":
+                        Console.WriteLine("Digite o ID da tarefa a ser concluída:");
+                        int idConcluir = int.Parse(Console.ReadLine());
+                        gerenciar.ConcluirTarefa(idConcluir);
+                        break;
+
+                    case "4":
+                        Console.WriteLine("Digite o ID da tarefa a ser removida:");
+                        int idRemover = int.Parse(Console.ReadLine());
+                        gerenciar.RemoverTarefa(idRemover);
+                        break;
+
+                    case "0":
+                        sair = true;
+                        Layout.Formatacao.Cor("Saindo do Gerenciador de Tarefas...\n", ConsoleColor.Red);
+                        break;
+
+                    default:
+                        Console.WriteLine("Opção inválida! Tente novamente.");
+                        break;
+                }
+
+                // Pausa para que o usuário veja a saída antes de limpar a tela
+                if (!sair)
+                {
+                    Console.WriteLine("\nPressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
             }
         }
     }
